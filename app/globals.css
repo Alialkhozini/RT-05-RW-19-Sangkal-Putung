@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #C62828;
+  --color-primary-hover: #A91F1F;
+  --color-dark: #1F2937;
+  --color-neutral-bg: #F8F8F7;
+  --color-neutral-card: #FFFFFF;
+  --color-neutral-gray: #F1F1EF;
+  --color-success-rt: #2E7D32;
+  --color-warning-rt: #F59E0B;
+  --color-error-rt: #DC2626;
+  
+  --font-sans: var(--font-plus-jakarta-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-handwriting: var(--font-caveat), 'Caveat', cursive;
+}
+
+.font-handwriting {
+  font-family: var(--font-caveat), 'Caveat', cursive;
+}
+
+:root {
+  --background: #F8F8F7;
+  --foreground: #1F2937;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F1EF;
+}
+::-webkit-scrollbar-thumb {
+  background: #C62828;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A91F1F;
+}
+
+/* Fitur Aksesibilitas */
+html.accessibility-text-large {
+  font-size: 112.5%; /* Naik ~12% */
+}
+
+html.accessibility-text-xlarge {
+  font-size: 125%; /* Naik 25% */
+}
+
+html.accessibility-high-contrast {
+  filter: contrast(1.35) saturate(1.1);
+}
+
+html.accessibility-reduce-motion * {
+  animation-delay: 0s !important;
+  animation-duration: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0s !important;
+  scroll-behavior: auto !important;
+}
+
+/* Google Translate Top Banner & Tooltip Suppressor */
+.goog-te-banner-frame,
+.goog-te-banner-frame.skiptranslate,
+iframe.goog-te-banner-frame,
+iframe.skiptranslate,
+#goog-gt-tt,
+.goog-te-balloon-frame {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  top: -9999px !important;
+}
+
+html, body {
+  top: 0px !important;
+  position: static !important;
+  margin-top: 0px !important;
+}
+
+#google_translate_element {
+  position: fixed !important;
+  top: -9999px !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -9999 !important;
+}
+
+.goog-tooltip,
+.goog-tooltip:hover {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
