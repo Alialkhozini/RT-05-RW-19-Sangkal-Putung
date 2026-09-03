@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { saveNewsAction } from '@/app/actions/admin.actions';
+import { compressImageClient } from '@/lib/client-image-compressor';
 
 interface NewsFormProps {
   newsId?: string;
@@ -57,21 +58,19 @@ export default function NewsForm({ newsId, initialData }: NewsFormProps) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Ukuran gambar maksimal adalah 5MB.');
-      return;
+    try {
+      setError(null);
+      const compressedBase64 = await compressImageClient(file, 1920, 1080, 0.85);
+      setCoverBase64(compressedBase64);
+      setCoverPreview(compressedBase64);
+    } catch (err) {
+      console.error('Gagal memproses gambar:', err);
+      setError('Gagal membaca gambar. Silakan gunakan format JPG, PNG, atau WebP.');
     }
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setCoverBase64(reader.result as string);
-      setCoverPreview(reader.result as string);
-    };
-    reader.readAsDataURL(file);
   };
 
   const handleRemoveCover = () => {

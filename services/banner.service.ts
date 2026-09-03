@@ -143,14 +143,42 @@ export async function getBannerById(id: string): Promise<HeroBanner | null> {
 }
 
 /**
- * Membuat banner baru.
+ * Mendapatkan nomor urut banner berikutnya (maksimum yang ada + 1).
+ */
+export async function getNextBannerOrder(): Promise<number> {
+  try {
+    const supabase = await createServerClient();
+    const { data } = await supabase
+      .from('hero_banners')
+      .select('order_num')
+      .order('order_num', { ascending: false })
+      .limit(1);
+
+    if (data && data.length > 0 && typeof data[0].order_num === 'number') {
+      return Math.max(1, data[0].order_num + 1);
+    }
+    return 1;
+  } catch (err) {
+    return 1;
+  }
+}
+
+/**
+ * Membuat banner baru dengan validasi nomor urut >= 1 dan otomatisasi nomor urut berikutnya.
  */
 export async function createBanner(payload: Omit<HeroBanner, 'id' | 'created_at' | 'updated_at'>): Promise<HeroBanner> {
   const supabase = await createServerClient();
+  
+  let orderNum = payload.order_num;
+  if (!orderNum || orderNum < 1) {
+    orderNum = await getNextBannerOrder();
+  }
+
   const { data, error } = await supabase
     .from('hero_banners')
     .insert([{
       ...payload,
+      order_num: orderNum,
       updated_at: new Date().toISOString()
     }])
     .select()
@@ -169,12 +197,19 @@ export async function createBanner(payload: Omit<HeroBanner, 'id' | 'created_at'
  */
 export async function updateBanner(id: string, payload: Partial<HeroBanner>): Promise<HeroBanner> {
   const supabase = await createServerClient();
+  
+  const updateData: any = {
+    ...payload,
+    updated_at: new Date().toISOString()
+  };
+
+  if (payload.order_num !== undefined) {
+    updateData.order_num = Math.max(1, payload.order_num);
+  }
+
   const { data, error } = await supabase
     .from('hero_banners')
-    .update({
-      ...payload,
-      updated_at: new Date().toISOString()
-    })
+    .update(updateData)
     .eq('id', id)
     .select()
     .single();

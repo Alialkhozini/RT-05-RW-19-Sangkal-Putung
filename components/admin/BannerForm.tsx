@@ -11,29 +11,33 @@ import {
   AlertCircle,
   Eye,
   Sliders,
-  Sparkles
+  Sparkles,
+  Lock
 } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { saveBannerAction } from '@/app/actions/admin.actions';
+import { compressImageClient } from '@/lib/client-image-compressor';
 
 interface BannerFormProps {
   initialData?: {
     id?: string;
-    title: string;
+    title?: string;
     subtitle?: string;
     badge?: string;
-    image_url: string;
+    image_url?: string;
     cta_text?: string;
     cta_link?: string;
     order_num?: number;
     is_active?: boolean;
   };
+  minOrder?: number;
 }
 
-export default function BannerForm({ initialData }: BannerFormProps) {
+export default function BannerForm({ initialData, minOrder }: BannerFormProps) {
   const router = useRouter();
   const bannerId = initialData?.id;
+  const minAllowedOrder = !bannerId ? (minOrder || 1) : 1;
 
   const [formData, setFormData] = useState({
     title: initialData?.title || '',
@@ -42,7 +46,7 @@ export default function BannerForm({ initialData }: BannerFormProps) {
     image_url: initialData?.image_url || '/hero-banner.jpg',
     cta_text: initialData?.cta_text || '',
     cta_link: initialData?.cta_link || '',
-    order_num: initialData?.order_num !== undefined ? initialData.order_num : 1,
+    order_num: initialData?.order_num !== undefined ? Math.max(minAllowedOrder, initialData.order_num) : minAllowedOrder,
     is_active: initialData?.is_active !== undefined ? initialData.is_active : true,
   });
 
@@ -58,35 +62,41 @@ export default function BannerForm({ initialData }: BannerFormProps) {
       const { checked } = e.target as HTMLInputElement;
       setFormData((prev) => ({ ...prev, [name]: checked }));
     } else if (name === 'order_num') {
-      setFormData((prev) => ({ ...prev, [name]: parseInt(value) || 0 }));
+      const parsed = parseInt(value, 10);
+      setFormData((prev) => ({
+        ...prev,
+        [name]: isNaN(parsed) ? minAllowedOrder : Math.max(minAllowedOrder, parsed)
+      }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Ukuran berkas banner maksimal 5MB.');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const base64 = reader.result as string;
-      setImageBase64(base64);
-      setImagePreview(base64);
+    try {
       setError(null);
-    };
-    reader.readAsDataURL(file);
+      // Kompresi otomatis di browser ke resolusi 1920x1080 Full HD
+      const compressedBase64 = await compressImageClient(file, 1920, 1080, 0.85);
+      setImageBase64(compressedBase64);
+      setImagePreview(compressedBase64);
+    } catch (err) {
+      console.error('Gagal memproses gambar:', err);
+      setError('Gagal membaca gambar. Silakan gunakan format JPG, PNG, atau WebP.');
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.title.trim()) {
       setError('Judul banner wajib diisi.');
+      return;
+    }
+
+    if (formData.order_num < minAllowedOrder) {
+      setError(`Nomor urut tidak boleh kurang dari ${minAllowedOrder} karena nomor urut sebelumnya sudah digunakan.`);
       return;
     }
 
@@ -272,14 +282,29 @@ export default function BannerForm({ initialData }: BannerFormProps) {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <Input
-                label="Urutan Tampilan (Nomor Urut)"
-                name="order_num"
-                type="number"
-                value={formData.order_num}
-                onChange={handleInputChange}
-                placeholder="1"
-              />
+              <div className="flex flex-col gap-1.5 text-left">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                    Urutan Tampilan (Nomor Urut)
+                  </label>
+                  <span className="text-[10px] font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-full flex items-center gap-1">
+                    <Lock className="w-2.5 h-2.5" /> Terkunci Otomatis
+                  </span>
+                </div>
+                <div className="relative flex items-center">
+                  <input
+                    type="text"
+                    name="order_num"
+                    value={`Urutan #${formData.order_num}`}
+                    readOnly
+                    className="w-full px-4 py-3 bg-neutral-bg/80 border border-neutral-gray rounded-xl text-sm font-bold text-dark cursor-not-allowed outline-none select-none"
+                  />
+                  <Lock className="absolute right-3.5 w-4 h-4 text-gray-400 pointer-events-none" />
+                </div>
+                <span className="text-[11px] text-gray-400 font-medium">
+                  Nomor urut dialokasikan otomatis oleh sistem (tidak dapat diubah manual) untuk menjaga urutan carousel beranda.
+                </span>
+              </div>
 
               <div className="flex flex-col justify-end">
                 <label className="flex items-center gap-3 p-3 bg-neutral-bg rounded-xl border border-neutral-gray cursor-pointer hover:bg-neutral-bg/80 transition-colors">

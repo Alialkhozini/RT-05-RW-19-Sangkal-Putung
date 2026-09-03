@@ -6,6 +6,7 @@ import { Upload, X, Trash2, Tag, Calendar, AlertTriangle, Check, Image as ImageI
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { addGalleryAction, removeGalleryAction } from '@/app/actions/admin.actions';
+import { compressImageClient } from '@/lib/client-image-compressor';
 
 interface GalleryItem {
   id: string;
@@ -45,22 +46,19 @@ export default function GalleryManager({ initialItems }: GalleryManagerProps) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Ukuran foto galeri maksimal adalah 5MB.');
-      return;
+    try {
+      setError(null);
+      const compressedBase64 = await compressImageClient(file, 1920, 1080, 0.85);
+      setPhotoBase64(compressedBase64);
+      setPhotoPreview(compressedBase64);
+    } catch (err) {
+      console.error('Gagal memproses gambar:', err);
+      setError('Gagal membaca gambar. Silakan gunakan format JPG, PNG, atau WebP.');
     }
-
-    setError(null);
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPhotoBase64(reader.result as string);
-      setPhotoPreview(reader.result as string);
-    };
-    reader.readAsDataURL(file);
   };
 
   const handleRemovePhoto = () => {

@@ -1,9 +1,12 @@
 import BannerForm from '@/components/admin/BannerForm';
+import { getNextBannerOrder } from '@/services/banner.service';
 
-export default function AddBannerPage() {
+export default async function AddBannerPage() {
+  const nextOrder = await getNextBannerOrder();
+
   return (
     <div>
-      <BannerForm />
+      <BannerForm initialData={{ order_num: nextOrder }} />
     </div>
   );
 }
