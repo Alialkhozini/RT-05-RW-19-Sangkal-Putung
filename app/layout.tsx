@@ -20,7 +20,11 @@ export const metadata: Metadata = {
   description: "Pusat informasi resmi dan layanan publik digital warga RT 05 RW 19 Sangkal Putung, Kelurahan Brebes. Pengurusan surat online, laporan warga, dan berita lingkungan.",
   keywords: "RT 05, RW 19, Sangkal Putung, Brebes, Kelurahan Brebes, surat online, lapor rt, website rt",
   authors: [{ name: "Pengurus RT 05 RW 19" }],
-  viewport: "width=device-width, initial-scale=1.0",
+  icons: {
+    icon: '/logo-rt.png',
+    shortcut: '/logo-rt.png',
+    apple: '/logo-rt.png',
+  },
 };
 
 export default function RootLayout({

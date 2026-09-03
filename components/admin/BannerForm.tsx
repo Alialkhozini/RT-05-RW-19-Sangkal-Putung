@@ -264,23 +264,6 @@ export default function BannerForm({ initialData, minOrder }: BannerFormProps) {
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Input
-                label="Teks Tombol CTA (Opsional)"
-                name="cta_text"
-                value={formData.cta_text}
-                onChange={handleInputChange}
-                placeholder="Contoh: Ajukan Surat Sekarang"
-              />
-              <Input
-                label="Tautan URL Tombol CTA (Opsional)"
-                name="cta_link"
-                value={formData.cta_link}
-                onChange={handleInputChange}
-                placeholder="Contoh: /layanan/surat"
-              />
-            </div>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               <div className="flex flex-col gap-1.5 text-left">
                 <div className="flex items-center justify-between">
