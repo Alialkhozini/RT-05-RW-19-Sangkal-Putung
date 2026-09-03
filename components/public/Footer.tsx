@@ -1,18 +1,21 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, MapPin, Clock, ExternalLink } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white border-t border-neutral-gray mt-auto pt-16 pb-8 transition-colors">
+    <footer className="bg-[#0F1E36] text-white border-t border-[#1C2E4A] mt-auto pt-14 pb-8 transition-colors">
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 pb-12 border-b border-neutral-gray">
-          {/* Kolom 1: Profil Singkat */}
+        {/* 4 Kolom Utama Footer */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 pb-12 border-b border-white/10">
+
+          {/* Kolom 1: Profil RT */}
           <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2.5 notranslate" translate="no">
-              <div className="relative w-13 h-15 md:w-14 md:h-16 bg-transparent shrink-0 flex items-center justify-center">
+            <div className="flex items-center gap-4 notranslate" translate="no">
+              {/* Logo RT 05 RW 19 */}
+              <div className="relative w-14 h-16 md:w-16 md:h-18 shrink-0 flex items-center justify-center">
                 <Image
                   src="/logo-rt.png"
                   alt="Logo RT 05 RW 19 Sangkal Putung"
@@ -21,93 +24,143 @@ export default function Footer() {
                   unoptimized
                 />
               </div>
-              <div className="w-[2px] h-9 md:h-11 bg-gradient-to-b from-primary via-red-600 to-primary/40 rounded-full shrink-0" />
-              <div className="flex flex-col justify-center text-left">
-                <span className="text-xs md:text-sm font-black tracking-tight uppercase leading-none bg-gradient-to-r from-primary via-red-700 to-dark bg-clip-text text-transparent">
-                  RT 05 RW 19 SANGKAL PUTUNG
-                </span>
-                <span className="text-[10px] md:text-[11px] font-black tracking-tight uppercase leading-none text-dark mt-1">
-                  KEL. BREBES KECAMATAN BREBES
-                </span>
+
+              {/* Logo Kabupaten Brebes */}
+              <div className="relative w-14 h-16 md:w-16 md:h-18 shrink-0 flex items-center justify-center">
+                <Image
+                  src="/logo-brebes.svg"
+                  alt="Logo Kabupaten Brebes"
+                  fill
+                  className="object-contain"
+                  unoptimized
+                />
               </div>
             </div>
-            <p className="text-sm text-gray-500 leading-relaxed max-w-sm">
-              Website resmi RT 05 RW 19 Sangkal Putung, Kelurahan Brebes sebagai sarana pusat informasi, transparansi, publikasi kegiatan, dan kemudahan pelayanan administrasi digital untuk warga.
+            <p className="text-sm font-normal text-gray-300 leading-relaxed">
+              Website resmi RT 05 RW 19 Sangkal Putung, Kelurahan Brebes sebagai pusat informasi kependudukan, pengurusan surat mandiri online, dan transparansi kegiatan warga.
             </p>
           </div>
 
-          {/* Kolom 2: Kontak Kami */}
+          {/* Kolom 2: Tautan Cepat */}
           <div className="flex flex-col gap-4">
-            <h3 className="text-xs font-bold text-primary uppercase tracking-wider">
-              Kontak Kami
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <span className="w-1.5 h-4 bg-amber-400 rounded-full inline-block" />
+              TAUTAN CEPAT
             </h3>
-            <ul className="flex flex-col gap-3">
-              <li className="flex items-start gap-2.5 text-sm text-gray-500">
-                <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                <span>RT 05 RW 19, Sangkal Putung, Kelurahan Brebes, Kecamatan Brebes, Kabupaten Brebes, Jawa Tengah, Indonesia</span>
+            <ul className="flex flex-col gap-2.5 text-sm font-normal text-gray-300">
+              <li>
+                <Link href="/" className="hover:text-amber-400 transition-colors">
+                  Beranda
+                </Link>
               </li>
-              <li className="flex items-center gap-2.5 text-sm text-gray-500">
-                <Phone className="w-4 h-4 text-primary shrink-0" />
-                <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">
-                  +62 812-3456-7890 (WhatsApp)
-                </a>
+              <li>
+                <Link href="/profil/sambutan" className="hover:text-amber-400 transition-colors">
+                  Profil RT & Sambutan
+                </Link>
               </li>
-              <li className="flex items-center gap-2.5 text-sm text-gray-500">
-                <Mail className="w-4 h-4 text-primary shrink-0" />
-                <a href="mailto:kontak@rt05rw19.id" className="hover:text-primary transition-colors">
-                  kontak@rt05rw19.id
-                </a>
+              <li>
+                <Link href="/profil/pengurus" className="hover:text-amber-400 transition-colors">
+                  Struktur Pengurus
+                </Link>
+              </li>
+              <li>
+                <Link href="/informasi/berita" className="hover:text-amber-400 transition-colors">
+                  Berita & Kegiatan
+                </Link>
+              </li>
+              <li>
+                <Link href="/informasi/pengumuman" className="hover:text-amber-400 transition-colors">
+                  Pengumuman Resmi
+                </Link>
+              </li>
+              <li>
+                <Link href="/layanan/surat" className="hover:text-amber-400 transition-colors">
+                  Pengajuan Surat Online
+                </Link>
+              </li>
+              <li>
+                <Link href="/layanan/lapor" className="hover:text-amber-400 transition-colors">
+                  Lapor & Pengaduan Warga
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Kolom 3: Tautan Cepat */}
+          {/* Kolom 3: Kontak RT */}
           <div className="flex flex-col gap-4">
-            <h3 className="text-xs font-bold text-primary uppercase tracking-wider">
-              Tautan Cepat
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <span className="w-1.5 h-4 bg-amber-400 rounded-full inline-block" />
+              KONTAK RT 05 RW 19
             </h3>
-            <div className="grid grid-cols-2 gap-2">
-              <Link href="/" className="text-sm text-gray-500 hover:text-primary transition-colors font-medium">
-                Beranda
-              </Link>
-              <Link href="/profil/sambutan" className="text-sm text-gray-500 hover:text-primary transition-colors font-medium">
-                Sambutan RT
-              </Link>
-              <Link href="/profil/sejarah" className="text-sm text-gray-500 hover:text-primary transition-colors font-medium">
-                Sejarah RT
-              </Link>
-              <Link href="/profil/pengurus" className="text-sm text-gray-500 hover:text-primary transition-colors font-medium">
-                Pengurus
-              </Link>
-              <Link href="/informasi/berita" className="text-sm text-gray-500 hover:text-primary transition-colors font-medium">
-                Berita RT
-              </Link>
-              <Link href="/informasi/pengumuman" className="text-sm text-gray-500 hover:text-primary transition-colors font-medium">
-                Pengumuman
-              </Link>
-              <Link href="/layanan/surat" className="text-sm text-gray-500 hover:text-primary transition-colors font-medium">
-                Surat Menyurat
-              </Link>
-              <Link href="/layanan/lapor" className="text-sm text-gray-500 hover:text-primary transition-colors font-medium">
-                Lapor RT
-              </Link>
-            </div>
+            <ul className="flex flex-col gap-3.5 text-sm font-normal text-gray-300">
+              <li className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <span className="leading-relaxed">
+                  RT 05 RW 19, Sangkal Putung, Kelurahan Brebes, Kec. Brebes, Kab. Brebes, Jawa Tengah 52212
+                </span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Phone className="w-4 h-4 text-amber-400 shrink-0" />
+                <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors">
+                  Telp / WA: +62 812-3456-7890
+                </a>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <div className="flex flex-col leading-relaxed">
+                  <span className="font-normal text-white">Jam Operasional Pelayanan:</span>
+                  <span>Senin - Sabtu: 08.00 - 20.00 WIB</span>
+                  <span className="text-xs text-gray-400 font-normal">(Layanan Surat Online 24 Jam)</span>
+                </div>
+              </li>
+            </ul>
           </div>
+
+          {/* Kolom 4: Peta Lokasi */}
+          <div className="flex flex-col gap-4">
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <span className="w-1.5 h-4 bg-amber-400 rounded-full inline-block" />
+              PETA LOKASI
+            </h3>
+            <div className="w-full h-36 rounded-xl overflow-hidden border border-white/15 shadow-md bg-neutral-bg relative group">
+              <iframe
+                title="Peta Lokasi RT 05 RW 19 Sangkal Putung"
+                src="https://maps.google.com/maps?q=Sangkal%20Putung%2C%20Kelurahan%20Brebes%2C%20Kecamatan%20Brebes&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="w-full h-full"
+              />
+            </div>
+            <a
+              href="https://maps.google.com/?q=Sangkal+Putung+Kelurahan+Brebes"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs md:text-sm font-medium text-amber-400 hover:text-amber-300 transition-colors w-fit"
+            >
+              <span>Buka di Google Maps</span>
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          </div>
+
         </div>
 
-        {/* Hak Cipta */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 text-xs text-gray-400 font-semibold">
+        {/* Hak Cipta & Link Admin */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 text-xs text-gray-400 font-normal">
           <span>
-            &copy; {currentYear} RT 05 RW 19 Sangkal Putung. Seluruh hak cipta dilindungi.
+            &copy; {currentYear} RT 05 RW 19 Sangkal Putung, Kelurahan Brebes.
           </span>
           <div className="flex gap-4">
-            <Link href="/admin/login" className="hover:text-primary transition-colors">
+            <Link href="/admin/login" className="hover:text-amber-400 transition-colors">
               Portal Admin
             </Link>
-            <Link href="/pengajuan" className="hover:text-primary transition-colors">
+            <Link href="/pengajuan" className="hover:text-amber-400 transition-colors">
               Pelacakan Surat
             </Link>
-            <Link href="/verifikasi" className="hover:text-primary transition-colors">
+            <Link href="/verifikasi" className="hover:text-amber-400 transition-colors">
               Verifikasi Dokumen
             </Link>
           </div>
@@ -116,3 +169,4 @@ export default function Footer() {
     </footer>
   );
 }
+

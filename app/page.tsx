@@ -15,7 +15,10 @@ import {
 } from 'lucide-react';
 import PublicNavbar from '@/components/public/PublicNavbar';
 import Footer from '@/components/public/Footer';
-import { getHeroContent, getRtProfile } from '@/services/profile.service';
+import DemographicStatistics from '@/components/public/DemographicStatistics';
+import HeroCarousel from '@/components/public/HeroCarousel';
+import { getRtProfile } from '@/services/profile.service';
+import { getActiveBanners } from '@/services/banner.service';
 import { getPublishedNews } from '@/services/news.service';
 import { getPublishedAnnouncements } from '@/services/announcement.service';
 
@@ -23,8 +26,8 @@ export const revalidate = 60; // Regenerasi halaman setiap 60 detik (ISR)
 
 export default async function HomePage() {
   // Ambil data dinamis secara paralel untuk optimasi kecepatan load
-  const [hero, profile, latestNewsData, latestAnnData] = await Promise.all([
-    getHeroContent(),
+  const [banners, profile, latestNewsData, latestAnnData] = await Promise.all([
+    getActiveBanners(),
     getRtProfile(),
     getPublishedNews(1, 3),
     getPublishedAnnouncements(1, 3),
@@ -64,73 +67,13 @@ export default async function HomePage() {
     },
   ];
 
-  const stats = [
-    { label: 'Total Warga', value: '160+', icon: Users, color: 'text-primary' },
-    { label: 'Kepala Keluarga', value: '48 KK', icon: FileCheck2, color: 'text-blue-700' },
-    { label: 'Layanan Surat', value: '24 Jam', icon: FileText, color: 'text-green-700' },
-    { label: 'Laporan Ditangani', value: '98%', icon: CheckCircle, color: 'text-amber-700' },
-  ];
-
   return (
     <>
       <PublicNavbar />
 
       <main className="flex-grow">
-        {/* ================= HERO SECTION ================= */}
-        <section className="relative min-h-[620px] bg-dark text-white overflow-hidden flex items-center justify-center pt-36 pb-24 px-4 md:px-6">
-          {/* Background Image Placeholder with Overlay */}
-          <div className="absolute inset-0 z-0">
-            {hero.image_url ? (
-              <Image 
-                src={hero.image_url} 
-                alt="RT 05 RW 19 Sangkal Putung"
-                fill
-                className="object-cover opacity-20"
-                priority
-              />
-            ) : (
-              // Default background pattern
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/35 via-dark to-dark opacity-90" />
-            )}
-          </div>
-
-          <div className="relative z-10 w-full max-w-4xl text-center flex flex-col items-center gap-6">
-            <span className="bg-primary/20 border border-primary/40 text-white font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full animate-pulse">
-              {hero.badge}
-            </span>
-            <h1 className="font-handwriting text-5xl md:text-7xl lg:text-8xl font-bold tracking-normal leading-tight max-w-4xl drop-shadow-md text-white">
-              {hero.title}
-            </h1>
-            <p className="text-lg md:text-xl text-gray-300 font-medium max-w-2xl leading-relaxed">
-              {hero.subtitle}
-            </p>
-
-
-
-            {/* Search Input Bar */}
-            <form 
-              action="/informasi/berita"
-              method="GET"
-              className="w-full max-w-2xl bg-white rounded-2xl shadow-xl border border-neutral-gray/50 p-2 mt-8 flex items-center gap-2 animate-in fade-in slide-in-from-top-4 duration-300"
-            >
-              <div className="flex-1 flex items-center gap-2.5 px-3">
-                <Search className="w-5 h-5 text-gray-400 shrink-0" />
-                <input
-                  type="text"
-                  name="q"
-                  placeholder="Cari informasi, berita, pengumuman, atau layanan..."
-                  className="w-full bg-transparent border-none text-dark text-sm focus:outline-none placeholder:text-gray-400 font-medium py-2.5"
-                />
-              </div>
-              <button 
-                type="submit"
-                className="bg-primary hover:bg-primary-hover text-white text-xs font-bold px-5 py-3 rounded-xl transition-colors shrink-0"
-              >
-                Cari
-              </button>
-            </form>
-          </div>
-        </section>
+        {/* ================= HERO SECTION (CAROUSEL & SLIDER) ================= */}
+        <HeroCarousel banners={banners} />
 
         {/* ================= QUICK SERVICES CARDS ================= */}
         <section className="py-16 bg-neutral-bg">
@@ -320,10 +263,10 @@ export default async function HomePage() {
             <div className="flex items-end justify-between border-b border-neutral-gray pb-5 mb-10">
               <div className="flex flex-col gap-2">
                 <span className="text-xs font-bold text-primary uppercase tracking-widest">
-                  Pengumuman Resmi
+                  Maklumat RT
                 </span>
                 <h2 className="font-handwriting text-3xl md:text-5xl font-bold text-dark tracking-normal leading-none">
-                  Pengumuman Lingkungan
+                  Pengumuman Resmi
                 </h2>
               </div>
               <Link 
@@ -393,27 +336,7 @@ export default async function HomePage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 w-full">
-              {stats.map((stat) => {
-                const IconComp = stat.icon;
-                return (
-                  <div 
-                    key={stat.label}
-                    className="bg-white rounded-3xl p-6 shadow-sm border border-neutral-gray/60 flex flex-col items-center text-center gap-3 animate-in zoom-in duration-300"
-                  >
-                    <div className="w-12 h-12 rounded-2xl bg-neutral-bg flex items-center justify-center">
-                      <IconComp className={`w-6 h-6 ${stat.color}`} />
-                    </div>
-                    <span className="text-3xl font-extrabold text-dark tracking-tight">
-                      {stat.value}
-                    </span>
-                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">
-                      {stat.label}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
+            <DemographicStatistics />
           </div>
         </section>
 

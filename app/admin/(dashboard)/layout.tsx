@@ -18,7 +18,8 @@ import {
   X,
   User,
   ShieldCheck,
-  FolderOpen
+  FolderOpen,
+  Sliders
 } from 'lucide-react';
 
 export default function AdminLayout({
@@ -59,6 +60,7 @@ export default function AdminLayout({
     { name: 'Laporan Warga', href: '/admin/laporan', icon: MessageSquare },
     { name: 'Berita', href: '/admin/berita', icon: Newspaper },
     { name: 'Pengumuman', href: '/admin/pengumuman', icon: Bell },
+    { name: 'Banner Hero', href: '/admin/banner', icon: Sliders },
     {
       name: 'Profil RT',
       href: '#',
@@ -88,36 +90,43 @@ export default function AdminLayout({
               Dasbor Admin
             </span>
             <span className="text-[10px] text-gray-500 font-bold tracking-widest uppercase">
-              RT 05 RW 19
+              RT 05 RW 19 Sangkal Putung
             </span>
           </div>
         </div>
 
-        {/* Navigation Items */}
-        <nav className="flex-1 px-4 py-6 flex flex-col gap-2 overflow-y-auto">
+        {/* List Menu */}
+        <nav className="flex-1 p-4 flex flex-col gap-1.5 overflow-y-auto">
           {navItems.map((item) => {
             const IconComponent = item.icon;
-            
+            const isActive = pathname === item.href || (item.subItems && item.subItems.some(sub => pathname.startsWith(sub.href)));
+
             if (item.subItems) {
               return (
                 <div key={item.name} className="flex flex-col gap-1">
-                  <span className="px-3 py-1.5 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-                    {item.name}
-                  </span>
-                  <div className="pl-3 flex flex-col gap-1 border-l border-gray-800 ml-3">
-                    {item.subItems.map((sub) => (
-                      <Link
-                        key={sub.name}
-                        href={sub.href}
-                        className={`px-3 py-2 text-xs rounded-lg transition-colors font-semibold block ${
-                          pathname === sub.href
-                            ? 'bg-primary text-white'
-                            : 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
-                        }`}
-                      >
-                        {sub.name}
-                      </Link>
-                    ))}
+                  <div className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold ${
+                    isActive ? 'text-primary bg-primary/10' : 'text-gray-400'
+                  }`}>
+                    <IconComponent className="w-4 h-4" />
+                    <span>{item.name}</span>
+                  </div>
+                  <div className="pl-7 flex flex-col gap-1 border-l border-gray-800 ml-5 py-1">
+                    {item.subItems.map((sub) => {
+                      const isSubActive = pathname.startsWith(sub.href);
+                      return (
+                        <Link
+                          key={sub.name}
+                          href={sub.href}
+                          className={`px-3 py-1.5 rounded-lg text-xs transition-colors font-medium ${
+                            isSubActive
+                              ? 'bg-primary text-white font-bold shadow-sm'
+                              : 'text-gray-400 hover:text-white hover:bg-gray-800/60'
+                          }`}
+                        >
+                          {sub.name}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               );
@@ -127,37 +136,36 @@ export default function AdminLayout({
               <Link
                 key={item.name}
                 href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 text-xs rounded-xl transition-all font-bold ${
-                  pathname === item.href
-                    ? 'bg-primary text-white shadow-md'
-                    : 'text-gray-400 hover:bg-gray-800/40 hover:text-white'
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 ${
+                  isActive
+                    ? 'bg-primary text-white shadow-md shadow-primary/20'
+                    : 'text-gray-400 hover:text-white hover:bg-gray-800/60'
                 }`}
               >
-                <IconComponent className="w-4 h-4 shrink-0" />
+                <IconComponent className="w-4 h-4" />
                 <span>{item.name}</span>
               </Link>
             );
           })}
         </nav>
 
-        {/* User Info & Log Out */}
+        {/* User Info & Logout Button */}
         <div className="p-4 border-t border-gray-800 flex flex-col gap-3">
-          <div className="flex items-center gap-2.5 px-2">
-            <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 border border-gray-700 shrink-0">
+          <div className="flex items-center gap-3 px-2">
+            <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-400">
               <User className="w-4 h-4" />
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-[10px] font-extrabold text-white truncate">{adminEmail || 'Admin RT'}</span>
-              <span className="text-[8px] text-gray-500 font-extrabold uppercase flex items-center gap-0.5">
-                <ShieldCheck className="w-2.5 h-2.5 text-primary" /> Super Admin
-              </span>
+              <span className="text-xs font-bold text-white truncate">Administrator</span>
+              <span className="text-[10px] text-gray-400 truncate">{adminEmail || 'admin@rt05rw19.id'}</span>
             </div>
           </div>
           <button
             onClick={handleSignOut}
-            className="w-full bg-gray-800/50 hover:bg-primary hover:text-white text-gray-400 text-xs font-bold py-2.5 rounded-xl border border-gray-700/60 hover:border-transparent transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+            className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-red-400 hover:bg-red-500/10 transition-colors w-full cursor-pointer"
           >
-            <LogOut className="w-3.5 h-3.5" /> Keluar
+            <LogOut className="w-4 h-4" />
+            <span>Keluar Aplikasi</span>
           </button>
         </div>
       </aside>
@@ -179,6 +187,7 @@ export default function AdminLayout({
               {pathname.startsWith('/admin/laporan') && 'Manajemen Laporan Warga'}
               {pathname.startsWith('/admin/berita') && 'CMS Pengelolaan Berita'}
               {pathname.startsWith('/admin/pengumuman') && 'CMS Pengelolaan Pengumuman'}
+              {pathname.startsWith('/admin/banner') && 'CMS Banner Hero Carousel'}
               {pathname.startsWith('/admin/profil/') && 'Pengaturan Konten Profil RT'}
               {pathname.startsWith('/admin/galeri') && 'CMS Pengelolaan Galeri Foto'}
               {pathname.startsWith('/admin/dokumen') && 'Arsip Dokumen Terbit'}

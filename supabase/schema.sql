@@ -355,3 +355,23 @@ CREATE POLICY all_report_updates_admin ON public.report_updates FOR ALL USING (p
 
 -- 16. Kebijakan Aktivitas Admin
 CREATE POLICY all_activity_logs_admin ON public.admin_activity_logs FOR ALL USING (public.is_admin());
+
+-- 17. Tabel Banner Hero (hero_banners)
+CREATE TABLE IF NOT EXISTS public.hero_banners (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title TEXT NOT NULL,
+    subtitle TEXT,
+    badge TEXT DEFAULT 'WEBSITE RESMI RT 05 RW 19',
+    image_url TEXT NOT NULL,
+    cta_text TEXT,
+    cta_link TEXT,
+    order_num INTEGER DEFAULT 0,
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.hero_banners ENABLE ROW LEVEL SECURITY;
+CREATE POLICY select_hero_banners_public ON public.hero_banners FOR SELECT USING (is_active = true);
+CREATE POLICY all_hero_banners_admin ON public.hero_banners FOR ALL USING (public.is_admin());
+
