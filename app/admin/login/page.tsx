@@ -28,6 +28,12 @@ export default function AdminLoginPage() {
       return;
     }
 
+    const currentUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    if (!currentUrl || currentUrl.includes('placeholder')) {
+      setError('Kredensial Supabase di file .env belum termuat oleh browser. Silakan matikan dan restart server Anda (npm run dev).');
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
@@ -38,15 +44,17 @@ export default function AdminLoginPage() {
       });
 
       if (authError) {
+        console.error('Supabase Auth Error:', authError);
         setError(authError.message === 'Invalid login credentials' 
-          ? 'Email atau kata sandi salah. Silakan coba lagi.' 
+          ? 'Email atau kata sandi salah. Silakan periksa kembali akun admin Anda di Supabase.' 
           : authError.message);
       } else {
         router.refresh();
         router.push('/admin/dashboard');
       }
-    } catch (err) {
-      setError('Terjadi kesalahan koneksi sistem. Mohon coba sesaat lagi.');
+    } catch (err: any) {
+      console.error('Login Exception Error:', err);
+      setError(err?.message ? `Gagal terhubung ke Supabase (${err.message}). Pastikan dev server sudah direstart dan koneksi internet aktif.` : 'Terjadi kesalahan koneksi sistem. Mohon coba sesaat lagi.');
     } finally {
       setLoading(false);
     }
