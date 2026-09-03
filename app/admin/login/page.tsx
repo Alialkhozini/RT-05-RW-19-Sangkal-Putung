@@ -30,7 +30,7 @@ export default function AdminLoginPage() {
 
     const currentUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     if (!currentUrl || currentUrl.includes('placeholder')) {
-      setError('Kredensial Supabase di file .env belum termuat oleh browser. Silakan matikan dan restart server Anda (npm run dev).');
+      setError('Email atau kata sandi salah. Silakan periksa kembali akun admin Anda di Supabase.');
       return;
     }
 
@@ -45,8 +45,8 @@ export default function AdminLoginPage() {
 
       if (authError) {
         console.error('Supabase Auth Error:', authError);
-        setError(authError.message === 'Invalid login credentials' 
-          ? 'Email atau kata sandi salah. Silakan periksa kembali akun admin Anda di Supabase.' 
+        setError(authError.message === 'Invalid login credentials'
+          ? 'Email atau kata sandi salah. Silakan periksa kembali akun admin Anda di Supabase.'
           : authError.message);
       } else {
         router.refresh();
