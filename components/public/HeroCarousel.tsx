@@ -119,11 +119,11 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
 
       {/* Konten Utama Banner (Teks, Judul, Tombol Pencarian) */}
       <div className="relative z-20 w-full max-w-4xl text-center flex flex-col items-center gap-6">
-        {/* Badge */}
+        {/* Badge (Glassmorphism / Efek Kaca) */}
         {currentBanner.badge && (
           <span 
             key={`badge-${currentIndex}`}
-            className="bg-primary/25 border border-primary/40 text-white font-bold text-xs uppercase tracking-widest px-4 py-1.5 rounded-full animate-in fade-in slide-in-from-top-2 duration-500 shadow-sm"
+            className="bg-white/15 backdrop-blur-md border border-white/30 text-white font-extrabold text-xs uppercase tracking-widest px-5 py-1.5 rounded-full animate-in fade-in slide-in-from-top-2 duration-500 shadow-lg drop-shadow-sm inline-flex items-center justify-center"
           >
             {currentBanner.badge}
           </span>
