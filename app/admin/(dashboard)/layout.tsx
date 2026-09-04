@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 import { 
@@ -82,8 +83,14 @@ export default function AdminLayout({
       <aside className="hidden lg:flex flex-col w-64 bg-dark text-white shrink-0 border-r border-gray-800">
         {/* Brand Header */}
         <div className="p-6 border-b border-gray-800 flex items-center gap-3">
-          <div className="w-9 h-9 bg-primary/20 rounded-xl flex items-center justify-center text-primary font-extrabold shadow-inner border border-primary/20">
-            <span>RT</span>
+          <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+            <Image
+              src="/logo-rt.png"
+              alt="Logo RT 05 RW 19"
+              width={36}
+              height={36}
+              className="w-full h-full object-contain"
+            />
           </div>
           <div className="flex flex-col">
             <span className="text-xs font-extrabold tracking-wider uppercase leading-tight text-white">
@@ -221,10 +228,19 @@ export default function AdminLayout({
           {/* Mobile Brand Header */}
           <div className="p-6 border-b border-gray-800 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center text-primary font-bold">
-                <span>RT</span>
+              <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center p-1 shrink-0 shadow-sm">
+                <Image
+                  src="/logo-rt.png"
+                  alt="Logo RT 05 RW 19"
+                  width={32}
+                  height={32}
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <span className="text-xs font-extrabold">Dasbor Admin</span>
+              <div className="flex flex-col">
+                <span className="text-xs font-extrabold text-white leading-tight">Dasbor Admin</span>
+                <span className="text-[9px] text-gray-500 font-bold tracking-wider uppercase">RT 05 RW 19</span>
+              </div>
             </div>
             <button
               onClick={() => setIsSidebarOpen(false)}

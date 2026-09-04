@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { createBrowserClient } from '@supabase/ssr';
-import { AlertCircle, Lock, Mail, Home } from 'lucide-react';
+import { AlertCircle, Lock, Mail } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 
@@ -68,8 +69,14 @@ export default function AdminLoginPage() {
 
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-3">
-          <Link href="/" className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary font-bold shadow-inner hover:scale-105 transition-transform" title="Kembali ke Beranda">
-            <Home className="w-6 h-6" />
+          <Link href="/" className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-2.5 shadow-md border border-neutral-gray hover:scale-105 transition-transform" title="Kembali ke Beranda">
+            <Image
+              src="/logo-rt.png"
+              alt="Logo RT 05 RW 19"
+              width={52}
+              height={52}
+              className="w-full h-full object-contain"
+            />
           </Link>
           <div className="flex flex-col gap-1 mt-1">
             <h1 className="text-xl font-extrabold text-dark leading-tight">Admin RT 05 RW 19</h1>
