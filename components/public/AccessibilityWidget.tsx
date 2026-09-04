@@ -1,13 +1,24 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Eye, Type, ZapOff, RefreshCw, Check } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Eye, Type, ZapOff, RefreshCw, Check, X } from 'lucide-react';
 
 export default function AccessibilityWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [textSize, setTextSize] = useState<'normal' | 'large' | 'xlarge'>('normal');
   const [highContrast, setHighContrast] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll ke bawah saat panel terbuka agar seluruh opsi terlihat jelas
+  useEffect(() => {
+    if (isOpen && panelRef.current) {
+      const timer = setTimeout(() => {
+        panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   // Muat preferensi dari localStorage pada render pertama
   useEffect(() => {
@@ -68,34 +79,51 @@ export default function AccessibilityWidget() {
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-full hover:bg-neutral-gray text-dark focus:outline-none transition-colors border border-transparent hover:border-neutral-gray"
-        title="Pengaturan Aksesibilitas"
-        aria-label="Pengaturan Aksesibilitas"
+        className="p-2 rounded-full hover:bg-neutral-gray text-dark focus:outline-none transition-colors border border-transparent hover:border-neutral-gray relative z-50 flex items-center justify-center"
+        title={isOpen ? 'Tutup Pengaturan Aksesibilitas' : 'Pengaturan Aksesibilitas'}
+        aria-label={isOpen ? 'Tutup Pengaturan Aksesibilitas' : 'Pengaturan Aksesibilitas'}
       >
         <span className="sr-only">Aksesibilitas</span>
-        <svg
-          className="w-6 h-6 text-dark"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-          />
-        </svg>
+        {isOpen ? (
+          <X className="w-6 h-6 text-dark animate-in spin-in-90 duration-200" />
+        ) : (
+          <svg
+            className="w-6 h-6 text-dark"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+            />
+          </svg>
+        )}
       </button>
 
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-neutral-gray p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-            <h3 className="text-sm font-semibold text-dark border-b border-neutral-gray pb-2 mb-4">
-              Aksesibilitas & Keterbacaan
-            </h3>
+          <div
+            ref={panelRef}
+            className="absolute right-0 mt-2 w-72 bg-white rounded-2xl shadow-xl border border-neutral-gray p-5 z-50 animate-in fade-in slide-in-from-top-2 duration-200"
+          >
+            <div className="flex items-center justify-between border-b border-neutral-gray pb-2 mb-4">
+              <h3 className="text-sm font-semibold text-dark">
+                Aksesibilitas & Keterbacaan
+              </h3>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-1 text-gray-400 hover:text-dark rounded-lg hover:bg-neutral-gray transition-colors"
+                title="Tutup"
+                aria-label="Tutup"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
 
             {/* Pengaturan Ukuran Teks */}
             <div className="mb-4">

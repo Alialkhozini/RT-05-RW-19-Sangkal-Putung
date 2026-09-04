@@ -151,15 +151,12 @@ export default function PublicNavbar() {
             <AccessibilityWidget />
           </div>
 
-          {/* Bagian Kanan Seluler */}
-          <div className="flex lg:hidden items-center gap-2">
-            {/* Pilihan Bahasa */}
-            <LanguageSelector />
-            
-            <AccessibilityWidget />
+          {/* Bagian Kanan Seluler: Hanya Tombol Menu Hamburger */}
+          <div className="flex lg:hidden items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-gray-600 hover:text-primary rounded-full hover:bg-neutral-bg focus:outline-none"
+              className="p-2 text-gray-700 hover:text-primary rounded-xl hover:bg-neutral-bg focus:outline-none transition-colors"
+              aria-label="Buka Menu Navigasi"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -206,6 +203,17 @@ export default function PublicNavbar() {
                 )}
               </div>
             ))}
+
+            {/* Opsi Bahasa & Aksesibilitas Khusus Mobile di Dalam Menu */}
+            <div className="pt-3 mt-2 border-t border-neutral-gray flex items-center justify-between gap-3 px-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Bahasa:</span>
+                <LanguageSelector />
+              </div>
+              <div className="flex items-center gap-2">
+                <AccessibilityWidget />
+              </div>
+            </div>
           </div>
         )}
       </header>

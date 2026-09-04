@@ -1,17 +1,18 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, X } from 'lucide-react';
 
 interface Language {
   code: string;
   label: string;
+  name: string;
   flagUrl: string;
 }
 
 const languages: Language[] = [
-  { code: 'id', label: 'ID', flagUrl: 'https://flagcdn.com/w40/id.png' },
-  { code: 'en', label: 'EN', flagUrl: 'https://flagcdn.com/w40/gb.png' },
+  { code: 'id', label: 'ID', name: 'Indonesia', flagUrl: 'https://flagcdn.com/w40/id.png' },
+  { code: 'en', label: 'EN', name: 'English', flagUrl: 'https://flagcdn.com/w40/gb.png' },
 ];
 
 declare global {
@@ -40,6 +41,17 @@ export default function LanguageSelector() {
   const [currentLang, setCurrentLang] = useState('id');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll ke bawah saat dropdown terbuka
+  useEffect(() => {
+    if (isOpen && panelRef.current) {
+      const timer = setTimeout(() => {
+        panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   // Inisialisasi Google Translate script dan sinkronisasi preferensi bahasa
   useEffect(() => {
@@ -152,8 +164,9 @@ export default function LanguageSelector() {
       {/* Trigger Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="notranslate flex items-center gap-1.5 hover:bg-neutral-bg px-3 py-2 rounded-xl transition-all text-gray-700 hover:text-primary cursor-pointer font-bold select-none active:scale-95 duration-150 text-[14px]"
-        title="Pilih Bahasa / Select Language"
+        className="notranslate flex items-center gap-1.5 hover:bg-neutral-bg px-3 py-2 rounded-xl transition-all text-gray-700 hover:text-primary cursor-pointer font-bold select-none active:scale-95 duration-150 text-[14px] relative z-50"
+        title={isOpen ? 'Tutup Pilihan Bahasa' : 'Pilih Bahasa / Select Language'}
+        aria-label={isOpen ? 'Tutup Pilihan Bahasa' : 'Pilih Bahasa / Select Language'}
         translate="no"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -165,36 +178,44 @@ export default function LanguageSelector() {
         <span className="text-sm font-bold uppercase text-gray-800 notranslate" translate="no">
           {activeLanguage.label}
         </span>
-        <ChevronDown className={`w-4 h-4 text-gray-500 opacity-70 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+        {isOpen ? (
+          <X className="w-4 h-4 text-gray-700 animate-in spin-in-90 duration-200" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-gray-500 opacity-70 transition-transform duration-200" />
+        )}
       </button>
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div 
-          className="notranslate absolute right-0 mt-2 w-28 bg-white rounded-2xl shadow-xl border border-neutral-gray p-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150 flex flex-col gap-0.5"
-          translate="no"
-        >
-          {languages.map((lang) => (
-            <button
-              key={lang.code}
-              onClick={() => handleLanguageChange(lang.code)}
-              className={`notranslate w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-left font-bold transition-all text-gray-600 hover:text-primary hover:bg-neutral-bg cursor-pointer ${
-                currentLang === lang.code ? 'text-primary bg-primary/5' : ''
-              }`}
-              translate="no"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={lang.flagUrl}
-                alt={lang.label}
-                className="w-5.5 h-3.5 object-cover rounded-xs border border-gray-100 shrink-0 notranslate"
-              />
-              <span className="text-xs font-extrabold notranslate" translate="no">
-                {lang.label}
-              </span>
-            </button>
-          ))}
-        </div>
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
+          <div
+            ref={panelRef}
+            className="notranslate absolute right-0 mt-2 w-36 bg-white rounded-2xl shadow-xl border border-neutral-gray p-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150 flex flex-col gap-0.5"
+            translate="no"
+          >
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => handleLanguageChange(lang.code)}
+                className={`notranslate w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-left font-bold transition-all text-gray-600 hover:text-primary hover:bg-neutral-bg cursor-pointer ${
+                  currentLang === lang.code ? 'text-primary bg-primary/5 font-extrabold' : ''
+                }`}
+                translate="no"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={lang.flagUrl}
+                  alt={lang.label}
+                  className="w-5.5 h-3.5 object-cover rounded-xs border border-gray-100 shrink-0 notranslate"
+                />
+                <span className="text-xs font-bold notranslate" translate="no">
+                  {lang.name}
+                </span>
+              </button>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

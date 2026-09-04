@@ -190,9 +190,9 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
             type="button"
             onClick={prevSlide}
             aria-label="Banner Sebelumnya"
-            className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 md:w-13 md:h-13 rounded-full bg-black/35 hover:bg-primary/90 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-lg cursor-pointer group"
+            className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-30 p-2 text-white/80 hover:text-white transition-all duration-200 hover:scale-125 focus:outline-none cursor-pointer group"
           >
-            <ChevronLeft className="w-6 h-6 md:w-7 md:h-7 group-hover:-translate-x-0.5 transition-transform" />
+            <ChevronLeft className="w-8 h-8 md:w-11 md:h-11 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] group-hover:-translate-x-1 transition-transform" />
           </button>
 
           {/* Tombol Kanan (Next) */}
@@ -200,9 +200,9 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
             type="button"
             onClick={nextSlide}
             aria-label="Banner Selanjutnya"
-            className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 md:w-13 md:h-13 rounded-full bg-black/35 hover:bg-primary/90 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-lg cursor-pointer group"
+            className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-30 p-2 text-white/80 hover:text-white transition-all duration-200 hover:scale-125 focus:outline-none cursor-pointer group"
           >
-            <ChevronRight className="w-6 h-6 md:w-7 md:h-7 group-hover:translate-x-0.5 transition-transform" />
+            <ChevronRight className="w-8 h-8 md:w-11 md:h-11 drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] group-hover:translate-x-1 transition-transform" />
           </button>
 
           {/* Indikator Titik / Kapsul Pagination di Bawah (Ditempatkan di atas kartu layanan -mt-24) */}
