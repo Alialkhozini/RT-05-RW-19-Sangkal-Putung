@@ -14,6 +14,14 @@ export function createClient() {
   );
 }
 
+// Helper 1b: Client Public (untuk sitemap dan operasi data publik tanpa cookies)
+export function createPublicClient() {
+  return createBrowserClientSSR(
+    supabaseUrl,
+    supabaseAnonKey
+  );
+}
+
 // Helper 2: Client Server (untuk Server Components, Server Actions, Route Handlers)
 // RLS diaktifkan secara default sesuai session user
 export async function createServerClient() {
