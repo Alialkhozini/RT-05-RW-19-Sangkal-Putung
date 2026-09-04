@@ -83,13 +83,13 @@ export default function AdminLayout({
       <aside className="hidden lg:flex flex-col w-64 bg-dark text-white shrink-0 border-r border-gray-800">
         {/* Brand Header */}
         <div className="p-6 border-b border-gray-800 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center p-1.5 shrink-0 shadow-sm">
+          <div className="w-10 h-10 shrink-0 flex items-center justify-center">
             <Image
               src="/logo-rt.png"
               alt="Logo RT 05 RW 19"
-              width={36}
-              height={36}
-              className="w-full h-full object-contain"
+              width={40}
+              height={40}
+              className="w-full h-full object-contain drop-shadow-sm"
             />
           </div>
           <div className="flex flex-col">
@@ -228,13 +228,13 @@ export default function AdminLayout({
           {/* Mobile Brand Header */}
           <div className="p-6 border-b border-gray-800 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center p-1 shrink-0 shadow-sm">
+              <div className="w-9 h-9 shrink-0 flex items-center justify-center">
                 <Image
                   src="/logo-rt.png"
                   alt="Logo RT 05 RW 19"
-                  width={32}
-                  height={32}
-                  className="w-full h-full object-contain"
+                  width={36}
+                  height={36}
+                  className="w-full h-full object-contain drop-shadow-sm"
                 />
               </div>
               <div className="flex flex-col">

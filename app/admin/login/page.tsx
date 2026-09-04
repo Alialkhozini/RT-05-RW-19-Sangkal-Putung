@@ -69,13 +69,13 @@ export default function AdminLoginPage() {
 
         {/* Header */}
         <div className="flex flex-col items-center text-center gap-3">
-          <Link href="/" className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center p-2.5 shadow-md border border-neutral-gray hover:scale-105 transition-transform" title="Kembali ke Beranda">
+          <Link href="/" className="w-16 h-16 flex items-center justify-center hover:scale-105 transition-transform" title="Kembali ke Beranda">
             <Image
               src="/logo-rt.png"
               alt="Logo RT 05 RW 19"
-              width={52}
-              height={52}
-              className="w-full h-full object-contain"
+              width={64}
+              height={64}
+              className="w-full h-full object-contain drop-shadow-sm"
             />
           </Link>
           <div className="flex flex-col gap-1 mt-1">
