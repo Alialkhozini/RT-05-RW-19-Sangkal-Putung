@@ -80,25 +80,36 @@ export default function AdminLayout({
   return (
     <div className="min-h-screen bg-neutral-bg flex text-left font-medium">
       {/* ================= SIDEBAR NAV DESKTOP ================= */}
-      <aside className="hidden lg:flex flex-col w-64 bg-dark text-white shrink-0 border-r border-gray-800">
-        {/* Brand Header */}
-        <div className="p-6 border-b border-gray-800 flex items-center gap-3">
+      <aside className="hidden lg:flex flex-col w-64 bg-[#0F172A] text-white shrink-0 border-r border-gray-800">
+        {/* Brand Header (Warna Berbeda & Garis Pemisah) */}
+        <div className="p-5 bg-[#070D18] border-b border-gray-800 flex items-center gap-3">
           <div className="w-10 h-10 shrink-0 flex items-center justify-center">
             <Image
               src="/logo-rt.png"
               alt="Logo RT 05 RW 19"
               width={40}
               height={40}
-              className="w-full h-full object-contain drop-shadow-sm"
+              className="w-full h-full object-contain drop-shadow-md"
             />
           </div>
           <div className="flex flex-col">
             <span className="text-xs font-extrabold tracking-wider uppercase leading-tight text-white">
               Dasbor Admin
             </span>
-            <span className="text-[10px] text-gray-500 font-bold tracking-widest uppercase">
+            <span className="text-[10px] text-sky-400 font-bold tracking-wider uppercase">
               RT 05 RW 19 Sangkal Putung
             </span>
+          </div>
+        </div>
+
+        {/* User Info Bar di Bawah Header */}
+        <div className="px-5 py-3.5 bg-[#0C1527] border-b border-gray-800/80 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-sky-400 font-bold text-xs shrink-0 shadow-inner">
+            {adminEmail ? adminEmail.slice(0, 2).toUpperCase() : 'AD'}
+          </div>
+          <div className="flex flex-col min-w-0">
+            <span className="text-xs font-bold text-white truncate leading-tight">Administrator</span>
+            <span className="text-[10px] text-gray-400 font-medium truncate">{adminEmail || 'admin@rt05rw19.id'}</span>
           </div>
         </div>
 
@@ -156,20 +167,11 @@ export default function AdminLayout({
           })}
         </nav>
 
-        {/* User Info & Logout Button */}
-        <div className="p-4 border-t border-gray-800 flex flex-col gap-3">
-          <div className="flex items-center gap-3 px-2">
-            <div className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-gray-400">
-              <User className="w-4 h-4" />
-            </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-xs font-bold text-white truncate">Administrator</span>
-              <span className="text-[10px] text-gray-400 truncate">{adminEmail || 'admin@rt05rw19.id'}</span>
-            </div>
-          </div>
+        {/* Tombol Logout di Bawah */}
+        <div className="p-4 border-t border-gray-800 bg-[#0C1527]">
           <button
             onClick={handleSignOut}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold text-red-400 hover:bg-red-500/10 transition-colors w-full cursor-pointer"
+            className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-red-400 hover:text-white hover:bg-red-500/20 transition-all w-full cursor-pointer border border-transparent hover:border-red-500/30"
           >
             <LogOut className="w-4 h-4" />
             <span>Keluar Aplikasi</span>
@@ -221,12 +223,12 @@ export default function AdminLayout({
 
         {/* Mobile Menu Drawer Content */}
         <aside
-          className={`lg:hidden fixed top-0 bottom-0 left-0 w-64 bg-dark text-white z-50 flex flex-col transition-transform duration-300 ${
+          className={`lg:hidden fixed top-0 bottom-0 left-0 w-64 bg-[#0F172A] text-white z-50 flex flex-col transition-transform duration-300 ${
             isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         >
-          {/* Mobile Brand Header */}
-          <div className="p-6 border-b border-gray-800 flex items-center justify-between">
+          {/* Mobile Brand Header (Warna Berbeda & Garis Pemisah) */}
+          <div className="p-5 bg-[#070D18] border-b border-gray-800 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 shrink-0 flex items-center justify-center">
                 <Image
@@ -234,12 +236,12 @@ export default function AdminLayout({
                   alt="Logo RT 05 RW 19"
                   width={36}
                   height={36}
-                  className="w-full h-full object-contain drop-shadow-sm"
+                  className="w-full h-full object-contain drop-shadow-md"
                 />
               </div>
               <div className="flex flex-col">
                 <span className="text-xs font-extrabold text-white leading-tight">Dasbor Admin</span>
-                <span className="text-[9px] text-gray-500 font-bold tracking-wider uppercase">RT 05 RW 19</span>
+                <span className="text-[9px] text-sky-400 font-bold tracking-wider uppercase">RT 05 RW 19</span>
               </div>
             </div>
             <button
@@ -248,6 +250,16 @@ export default function AdminLayout({
             >
               <X className="w-5 h-5" />
             </button>
+          </div>
+
+          {/* Mobile User Info Bar */}
+          <div className="px-5 py-3 bg-[#0C1527] border-b border-gray-800/80 flex items-center gap-3">
+            <div className="w-7 h-7 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-sky-400 font-bold text-[11px] shrink-0 shadow-inner">
+              {adminEmail ? adminEmail.slice(0, 2).toUpperCase() : 'AD'}
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="text-xs font-bold text-white truncate">{adminEmail || 'admin@rt05rw19.id'}</span>
+            </div>
           </div>
 
           {/* Mobile Navigation */}
