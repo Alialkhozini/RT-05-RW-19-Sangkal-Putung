@@ -223,6 +223,21 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
           </div>
         </>
       )}
+
+      {/* ================= WAVE SHAPE DIVIDER (TRANSISI GELOMBANG BAWAH) ================= */}
+      <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none z-10 pointer-events-none">
+        <svg
+          viewBox="0 0 1440 120"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="none"
+          className="relative block w-full h-12 sm:h-16 md:h-20 lg:h-24 text-[#F8F8F7] fill-current"
+        >
+          <path
+            d="M0,70 C180,70 320,15 480,15 C680,15 880,95 1080,95 C1240,95 1360,55 1440,45 L1440,120 L0,120 Z"
+          />
+        </svg>
+      </div>
     </section>
   );
 }
