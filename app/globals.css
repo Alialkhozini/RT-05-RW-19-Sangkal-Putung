@@ -44,6 +44,17 @@ body {
   background: #A91F1F;
 }
 
+/* Hilangkan panah spinner bawaan browser pada input angka */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 /* Fitur Aksesibilitas */
 html.accessibility-text-large {
   font-size: 112.5%; /* Naik ~12% */

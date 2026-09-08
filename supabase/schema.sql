@@ -375,3 +375,26 @@ ALTER TABLE public.hero_banners ENABLE ROW LEVEL SECURITY;
 CREATE POLICY select_hero_banners_public ON public.hero_banners FOR SELECT USING (is_active = true);
 CREATE POLICY all_hero_banners_admin ON public.hero_banners FOR ALL USING (public.is_admin());
 
+-- 18. Tabel Demografi & Statistik Kependudukan (rt_demographics)
+CREATE TABLE IF NOT EXISTS public.rt_demographics (
+    id INTEGER PRIMARY KEY DEFAULT 1 CHECK (id = 1),
+    male_count INTEGER NOT NULL DEFAULT 85,
+    female_count INTEGER NOT NULL DEFAULT 75,
+    family_heads_count INTEGER NOT NULL DEFAULT 48,
+    wives_count INTEGER NOT NULL DEFAULT 44,
+    children_count INTEGER NOT NULL DEFAULT 62,
+    other_members_count INTEGER NOT NULL DEFAULT 6,
+    quick_total_warga TEXT NOT NULL DEFAULT '160 Jiwa',
+    quick_total_kk TEXT NOT NULL DEFAULT '48 KK',
+    quick_layanan_mandiri TEXT NOT NULL DEFAULT '24 Jam',
+    quick_tindak_lanjut TEXT NOT NULL DEFAULT '98%',
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+INSERT INTO public.rt_demographics (id) VALUES (1) ON CONFLICT (id) DO NOTHING;
+
+ALTER TABLE public.rt_demographics ENABLE ROW LEVEL SECURITY;
+CREATE POLICY select_rt_demographics_public ON public.rt_demographics FOR SELECT USING (true);
+CREATE POLICY all_rt_demographics_admin ON public.rt_demographics FOR ALL USING (public.is_admin());
+
+

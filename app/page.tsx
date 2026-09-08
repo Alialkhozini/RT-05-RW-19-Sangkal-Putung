@@ -21,16 +21,18 @@ import { getRtProfile } from '@/services/profile.service';
 import { getActiveBanners } from '@/services/banner.service';
 import { getPublishedNews } from '@/services/news.service';
 import { getPublishedAnnouncements } from '@/services/announcement.service';
+import { getDemographics } from '@/services/demographic.service';
 
 export const revalidate = 60; // Regenerasi halaman setiap 60 detik (ISR)
 
 export default async function HomePage() {
   // Ambil data dinamis secara paralel untuk optimasi kecepatan load
-  const [banners, profile, latestNewsData, latestAnnData] = await Promise.all([
+  const [banners, profile, latestNewsData, latestAnnData, demographics] = await Promise.all([
     getActiveBanners(),
     getRtProfile(),
     getPublishedNews(1, 3),
     getPublishedAnnouncements(1, 3),
+    getDemographics(),
   ]);
 
   const latestNews = latestNewsData.news;
@@ -322,7 +324,7 @@ export default async function HomePage() {
         </section>
 
         {/* ================= STATISTIK RT ================= */}
-        <section className="py-20 bg-neutral-bg border-y border-neutral-gray">
+        <section id="statistik-wilayah" className="py-20 bg-neutral-bg border-y border-neutral-gray scroll-mt-20">
           <div className="container mx-auto px-4 md:px-6 max-w-5xl text-center flex flex-col items-center gap-12">
             <div className="flex flex-col items-center gap-2">
               <span className="text-xs font-bold text-primary uppercase tracking-widest">
@@ -336,7 +338,7 @@ export default async function HomePage() {
               </p>
             </div>
 
-            <DemographicStatistics />
+            <DemographicStatistics initialData={demographics} />
           </div>
         </section>
 

@@ -2,20 +2,31 @@
 
 import React from 'react';
 import InteractiveDonutChart, { ChartSegment } from './InteractiveDonutChart';
-import { Users, Home, FileText, CheckCircle, Info, Sparkles } from 'lucide-react';
+import { Users, Home, FileText, CheckCircle } from 'lucide-react';
+import { RtDemographics, DEFAULT_DEMOGRAPHICS } from '@/types/demographics';
 
-export default function DemographicStatistics() {
+interface DemographicStatisticsProps {
+  initialData?: RtDemographics | null;
+}
+
+export default function DemographicStatistics({ initialData }: DemographicStatisticsProps) {
+  const data = initialData || DEFAULT_DEMOGRAPHICS;
+
+  const totalWarga = Number(data.male_count) + Number(data.female_count);
+  const malePct = totalWarga > 0 ? ((Number(data.male_count) / totalWarga) * 100).toFixed(1) : '0';
+  const femalePct = totalWarga > 0 ? ((Number(data.female_count) / totalWarga) * 100).toFixed(1) : '0';
+
   // Data Demografi Jenis Kelamin
   const genderData: ChartSegment[] = [
     {
       label: 'Laki-laki',
-      value: 85,
+      value: Number(data.male_count),
       color: '#2563EB', // Blue
       unit: 'orang',
     },
     {
       label: 'Perempuan',
-      value: 75,
+      value: Number(data.female_count),
       color: '#EC4899', // Pink
       unit: 'orang',
     },
@@ -25,33 +36,33 @@ export default function DemographicStatistics() {
   const familyStatusData: ChartSegment[] = [
     {
       label: 'Kepala Keluarga',
-      value: 48,
+      value: Number(data.family_heads_count),
       color: '#8B5CF6', // Purple
       unit: 'orang',
     },
     {
       label: 'Istri',
-      value: 44,
+      value: Number(data.wives_count),
       color: '#EC4899', // Pink
       unit: 'orang',
     },
     {
       label: 'Anak',
-      value: 62,
+      value: Number(data.children_count),
       color: '#3B82F6', // Blue
       unit: 'orang',
     },
     {
       label: 'Anggota Keluarga',
-      value: 6,
+      value: Number(data.other_members_count),
       color: '#F59E0B', // Amber
       unit: 'orang',
     },
   ];
 
   const quickStats = [
-    { label: 'Total Warga', value: '160 Jiwa', icon: Users, color: 'text-primary', bg: 'bg-primary/10' },
-    { label: 'Kepala Keluarga', value: '48 KK', icon: Home, color: 'text-purple-600', bg: 'bg-purple-50' },
+    { label: 'Total Warga', value: `${totalWarga} Jiwa`, icon: Users, color: 'text-primary', bg: 'bg-primary/10' },
+    { label: 'Kepala Keluarga', value: `${data.family_heads_count} KK`, icon: Home, color: 'text-purple-600', bg: 'bg-purple-50' },
     { label: 'Layanan Mandiri', value: '24 Jam', icon: FileText, color: 'text-blue-600', bg: 'bg-blue-50' },
     { label: 'Tindak Lanjut', value: '98%', icon: CheckCircle, color: 'text-green-600', bg: 'bg-green-50' },
   ];
@@ -80,14 +91,14 @@ export default function DemographicStatistics() {
           <InteractiveDonutChart
             data={genderData}
             centerLabel="Warga"
-            centerValue={160}
+            centerValue={totalWarga}
             unit="orang"
             tooltipTheme="dark"
           />
 
           <div className="mt-8 pt-4 border-t border-neutral-gray/60 w-full flex items-center justify-between text-xs font-semibold text-gray-400">
-            <span>Rasio Pria: 53.1%</span>
-            <span>Rasio Wanita: 46.9%</span>
+            <span>Rasio Pria: {malePct}%</span>
+            <span>Rasio Wanita: {femalePct}%</span>
           </div>
         </div>
 
@@ -111,21 +122,20 @@ export default function DemographicStatistics() {
           <InteractiveDonutChart
             data={familyStatusData}
             centerLabel="Total KK"
-            centerValue={48}
+            centerValue={Number(data.family_heads_count)}
             unit="orang"
             tooltipTheme="light"
           />
 
           <div className="mt-8 pt-4 border-t border-neutral-gray/60 w-full flex items-center justify-between text-xs font-semibold text-gray-400">
-            <span>Total Terdaftar: 48 KK</span>
+            <span>Total Terdaftar: {data.family_heads_count} KK</span>
             <span>4 Kategori Kependudukan</span>
           </div>
         </div>
       </div>
 
       {/* Petunjuk Interaksi */}
-      <div className="flex items-center gap-2 text-xs font-medium text-gray-400 bg-white/80 py-2 px-4 rounded-full border border-neutral-gray/60 shadow-xs">
-        <Sparkles className="w-3.5 h-3.5 text-primary animate-pulse" />
+      <div className="flex items-center justify-center text-xs font-medium text-gray-400 bg-white/80 py-2 px-4 rounded-full border border-neutral-gray/60 shadow-xs">
         <span>Arahkan kursor atau sentuh segmen lingkaran untuk melihat rincian angka & persentase.</span>
       </div>
 

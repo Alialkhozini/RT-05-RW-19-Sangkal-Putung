@@ -20,7 +20,8 @@ import {
   User,
   ShieldCheck,
   FolderOpen,
-  Sliders
+  Sliders,
+  PieChart
 } from 'lucide-react';
 
 export default function AdminLayout({
@@ -62,6 +63,7 @@ export default function AdminLayout({
     { name: 'Berita', href: '/admin/berita', icon: Newspaper },
     { name: 'Pengumuman', href: '/admin/pengumuman', icon: Bell },
     { name: 'Banner Hero', href: '/admin/banner', icon: Sliders },
+    { name: 'Demografi & Statistik', href: '/admin/demografi', icon: PieChart },
     {
       name: 'Profil RT',
       href: '#',
@@ -171,10 +173,15 @@ export default function AdminLayout({
         <div className="p-4 border-t border-gray-800 bg-[#0C1527]">
           <button
             onClick={handleSignOut}
-            className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl text-xs font-bold text-red-400 hover:text-white hover:bg-red-500/20 transition-all w-full cursor-pointer border border-transparent hover:border-red-500/30"
+            className="group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-white bg-[#341117] border border-[#541B23] hover:bg-primary hover:border-red-600 active:bg-primary-hover shadow-sm hover:shadow-lg hover:shadow-red-600/30 transition-all duration-200 w-full cursor-pointer"
           >
-            <LogOut className="w-4 h-4" />
-            <span>Keluar Aplikasi</span>
+            <div className="w-7 h-7 rounded-full bg-[#1A090C] border border-[#4A151C] group-hover:bg-red-800 group-hover:border-red-500 flex items-center justify-center text-white font-extrabold text-xs shrink-0 transition-colors shadow-inner">
+              {adminEmail ? adminEmail.charAt(0).toUpperCase() : 'A'}
+            </div>
+            <div className="flex items-center gap-2">
+              <LogOut className="w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform" />
+              <span className="text-white font-bold tracking-wide">Keluar Aplikasi</span>
+            </div>
           </button>
         </div>
       </aside>
@@ -197,6 +204,7 @@ export default function AdminLayout({
               {pathname.startsWith('/admin/berita') && 'CMS Pengelolaan Berita'}
               {pathname.startsWith('/admin/pengumuman') && 'CMS Pengelolaan Pengumuman'}
               {pathname.startsWith('/admin/banner') && 'CMS Banner Hero Carousel'}
+              {pathname.startsWith('/admin/demografi') && 'Statistik & Demografi Kependudukan'}
               {pathname.startsWith('/admin/profil/') && 'Pengaturan Konten Profil RT'}
               {pathname.startsWith('/admin/galeri') && 'CMS Pengelolaan Galeri Foto'}
               {pathname.startsWith('/admin/dokumen') && 'Arsip Dokumen Terbit'}
@@ -312,13 +320,17 @@ export default function AdminLayout({
           </nav>
 
           {/* Mobile Footer */}
-          <div className="p-4 border-t border-gray-800 flex flex-col gap-2.5">
-            <span className="text-[10px] text-gray-500 px-2 truncate">{adminEmail}</span>
+          <div className="p-4 border-t border-gray-800 flex flex-col gap-2.5 bg-[#0C1527]">
+            <span className="text-[10px] text-gray-400 px-2 truncate">{adminEmail}</span>
             <button
               onClick={handleSignOut}
-              className="w-full bg-gray-800 hover:bg-primary hover:text-white text-gray-400 text-xs font-bold py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5"
+              className="group flex items-center justify-center gap-2.5 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-white bg-[#341117] border border-[#541B23] hover:bg-primary hover:border-red-600 active:bg-primary-hover shadow-sm hover:shadow-lg hover:shadow-red-600/30 transition-all duration-200 w-full cursor-pointer"
             >
-              <LogOut className="w-3.5 h-3.5" /> Keluar
+              <div className="w-6 h-6 rounded-full bg-[#1A090C] border border-[#4A151C] group-hover:bg-red-800 group-hover:border-red-500 flex items-center justify-center text-white font-extrabold text-[10px] shrink-0 transition-colors shadow-inner">
+                {adminEmail ? adminEmail.charAt(0).toUpperCase() : 'A'}
+              </div>
+              <LogOut className="w-3.5 h-3.5 text-white" />
+              <span>Keluar Aplikasi</span>
             </button>
           </div>
         </aside>

@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { createServerClient } from '@/lib/supabase';
 import { uploadToCloudinary, deleteFromCloudinary } from '@/lib/cloudinary';
 import { adminUpdateReportStatus } from '@/services/report.service';
@@ -33,6 +34,10 @@ import {
   toggleBannerStatus,
   getBannerById
 } from '@/services/banner.service';
+import {
+  updateDemographics,
+  RtDemographics
+} from '@/services/demographic.service';
 
 // ----------------------------------------------------
 // HELPER: VERIFIKASI KEAMANAN & ROLE ADMIN
@@ -374,6 +379,28 @@ export async function toggleBannerStatusAction(id: string, is_active: boolean) {
   }
   await logActivity(supabase, user.id, 'BANNER_STATUS_TOGGLED', 'hero_banners', id, `Mengubah status banner menjadi ${is_active ? 'Aktif' : 'Non-aktif'}`);
   return { success: true };
+}
+
+// ----------------------------------------------------
+// 7. CMS DEMOGRAFI & STATISTIK KEPENDUDUKAN
+// ----------------------------------------------------
+export async function saveDemographicsAction(payload: Partial<RtDemographics>) {
+  const { supabase, user } = await verifyAdmin();
+
+  const result = await updateDemographics(payload);
+  await logActivity(
+    supabase,
+    user.id,
+    'DEMOGRAPHICS_UPDATED',
+    'rt_demographics',
+    '1',
+    'Memperbarui data statistik demografi warga'
+  );
+
+  revalidatePath('/');
+  revalidatePath('/admin/demografi');
+
+  return { success: true, demographics: result };
 }
 
 // ----------------------------------------------------
