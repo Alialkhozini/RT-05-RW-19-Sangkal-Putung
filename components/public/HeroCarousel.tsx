@@ -224,19 +224,52 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
         </>
       )}
 
-      {/* ================= WAVE SHAPE DIVIDER (TRANSISI GELOMBANG BAWAH) ================= */}
-      <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none z-10 pointer-events-none">
-        <svg
-          viewBox="0 0 1440 120"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-          className="relative block w-full h-12 sm:h-16 md:h-20 lg:h-24 text-[#F8F8F7] fill-current"
-        >
-          <path
-            d="M0,70 C180,70 320,15 480,15 C680,15 880,95 1080,95 C1240,95 1360,55 1440,45 L1440,120 L0,120 Z"
-          />
-        </svg>
+      {/* ================= WAVE SHAPE DIVIDER (EFEK OMBAK BERJALAN / FLOWING WAVES) ================= */}
+      <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none z-10 pointer-events-none h-14 sm:h-20 md:h-24 lg:h-28">
+        {/* Layer 1: Ombak Belakang (Halus & Lambat) */}
+        <div className="absolute inset-0 w-[200%] h-full animate-wave-slow opacity-40">
+          <svg
+            viewBox="0 0 2880 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            className="w-full h-full text-[#F8F8F7] fill-current"
+          >
+            <path
+              d="M0,60 C200,60 360,30 540,30 C740,30 900,85 1100,85 C1260,85 1340,60 1440,60 C1640,60 1800,30 1980,30 C2180,30 2340,85 2540,85 C2700,85 2780,60 2880,60 L2880,120 L0,120 Z"
+            />
+          </svg>
+        </div>
+
+        {/* Layer 2: Ombak Tengah (Arah Berlawanan & Sedang) */}
+        <div className="absolute inset-0 w-[200%] h-full animate-wave-medium opacity-65">
+          <svg
+            viewBox="0 0 2880 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            className="w-full h-full text-[#F8F8F7] fill-current"
+          >
+            <path
+              d="M0,75 C160,75 280,35 440,35 C640,35 820,90 1020,90 C1200,90 1340,75 1440,75 C1600,75 1720,35 1880,35 C2080,35 2260,90 2460,90 C2640,90 2780,75 2880,75 L2880,120 L0,120 Z"
+            />
+          </svg>
+        </div>
+
+        {/* Layer 3: Ombak Depan Utama (Solid & Mulus) */}
+        <div className="absolute inset-0 w-[200%] h-full animate-wave-fast">
+          <svg
+            viewBox="0 0 2880 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            className="w-full h-full text-[#F8F8F7] fill-current"
+          >
+            <path
+              d="M0,70 C180,70 320,15 480,15 C680,15 880,95 1080,95 C1240,95 1360,70 1440,70 C1620,70 1760,15 1920,15 C2120,15 2320,95 2520,95 C2680,95 2800,70 2880,70 L2880,120 L0,120 Z"
+            />
+          </svg>
+        </div>
       </div>
     </section>
   );

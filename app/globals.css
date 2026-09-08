@@ -57,12 +57,38 @@ html.accessibility-high-contrast {
   filter: contrast(1.35) saturate(1.1);
 }
 
-html.accessibility-reduce-motion * {
-  animation-delay: 0s !important;
-  animation-duration: 0s !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0s !important;
-  scroll-behavior: auto !important;
+/* Animated Flowing Waves */
+@keyframes waveFlowForward {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes waveFlowBackward {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-wave-slow {
+  animation: waveFlowForward 22s linear infinite;
+  will-change: transform;
+}
+
+.animate-wave-medium {
+  animation: waveFlowBackward 14s linear infinite;
+  will-change: transform;
+}
+
+.animate-wave-fast {
+  animation: waveFlowForward 8s linear infinite;
+  will-change: transform;
 }
 
 /* Google Translate Top Banner & Tooltip Suppressor */
