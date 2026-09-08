@@ -225,33 +225,33 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
       )}
 
       {/* ================= WAVE SHAPE DIVIDER (EFEK OMBAK BERJALAN / FLOWING WAVES) ================= */}
-      <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none z-10 pointer-events-none h-14 sm:h-20 md:h-24 lg:h-28">
+      <div className="absolute bottom-0 left-0 right-0 w-full overflow-hidden leading-none z-10 pointer-events-none h-12 sm:h-16 md:h-20 lg:h-24">
         {/* Layer 1: Ombak Belakang (Halus & Lambat) */}
-        <div className="absolute inset-0 w-[200%] h-full animate-wave-slow opacity-40">
+        <div className="absolute inset-0 w-[200%] h-full animate-wave-slow opacity-35">
           <svg
-            viewBox="0 0 2880 120"
+            viewBox="0 0 2880 100"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
             className="w-full h-full text-[#F8F8F7] fill-current"
           >
             <path
-              d="M0,60 C200,60 360,30 540,30 C740,30 900,85 1100,85 C1260,85 1340,60 1440,60 C1640,60 1800,30 1980,30 C2180,30 2340,85 2540,85 C2700,85 2780,60 2880,60 L2880,120 L0,120 Z"
+              d="M0,52 C220,52 380,32 580,32 C780,32 940,68 1140,68 C1300,68 1380,52 1440,52 C1660,52 1820,32 2020,32 C2220,32 2380,68 2580,68 C2740,68 2820,52 2880,52 L2880,100 L0,100 Z"
             />
           </svg>
         </div>
 
         {/* Layer 2: Ombak Tengah (Arah Berlawanan & Sedang) */}
-        <div className="absolute inset-0 w-[200%] h-full animate-wave-medium opacity-65">
+        <div className="absolute inset-0 w-[200%] h-full animate-wave-medium opacity-60">
           <svg
-            viewBox="0 0 2880 120"
+            viewBox="0 0 2880 100"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
             className="w-full h-full text-[#F8F8F7] fill-current"
           >
             <path
-              d="M0,75 C160,75 280,35 440,35 C640,35 820,90 1020,90 C1200,90 1340,75 1440,75 C1600,75 1720,35 1880,35 C2080,35 2260,90 2460,90 C2640,90 2780,75 2880,75 L2880,120 L0,120 Z"
+              d="M0,60 C180,60 320,36 500,36 C700,36 880,72 1080,72 C1240,72 1360,60 1440,60 C1620,60 1760,36 1940,36 C2140,36 2320,72 2520,72 C2680,72 2800,60 2880,60 L2880,100 L0,100 Z"
             />
           </svg>
         </div>
@@ -259,14 +259,14 @@ export default function HeroCarousel({ banners }: HeroCarouselProps) {
         {/* Layer 3: Ombak Depan Utama (Solid & Mulus) */}
         <div className="absolute inset-0 w-[200%] h-full animate-wave-fast">
           <svg
-            viewBox="0 0 2880 120"
+            viewBox="0 0 2880 100"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="none"
             className="w-full h-full text-[#F8F8F7] fill-current"
           >
             <path
-              d="M0,70 C180,70 320,15 480,15 C680,15 880,95 1080,95 C1240,95 1360,70 1440,70 C1620,70 1760,15 1920,15 C2120,15 2320,95 2520,95 C2680,95 2800,70 2880,70 L2880,120 L0,120 Z"
+              d="M0,54 C200,54 340,24 520,24 C720,24 920,75 1120,75 C1280,75 1380,54 1440,54 C1640,54 1780,24 1960,24 C2160,24 2360,75 2560,75 C2720,75 2820,54 2880,54 L2880,100 L0,100 Z"
             />
           </svg>
         </div>
